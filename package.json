@@ -1,0 +1,26 @@
+{
+  "name": "onereal-estate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon Backend/index.js",
+    "start": "node Backend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tushargupta8954/onereal-estate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tushargupta8954/onereal-estate/issues"
+  },
+  "homepage": "https://github.com/tushargupta8954/onereal-estate#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
