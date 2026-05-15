@@ -3,7 +3,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: './Backend/.env' });
+
 console.log("ENV VALUE:", process.env.MONGODB_URI);
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log('Connected to MongoDB');
