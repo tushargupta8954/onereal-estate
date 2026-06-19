@@ -3,11 +3,14 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/userRoutes.js';
 import authRouter from './routes/authRoutes.js';
-
+import cookieParser from 'cookie-parser';
 dotenv.config(); // ✅ Simple - reads .env from current folder
 
 const app = express();
+
 app.use(express.json());
+
+app.use(cookieParser());
 
 // Routes ✅ before listen
 app.use("/api/user", userRouter);
