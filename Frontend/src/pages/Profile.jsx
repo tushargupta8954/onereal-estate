@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart, updateUserSuccess, updateUserFailure  } from "../redux/user/userSlice.js";
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess  } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 
 const DEFAULT_AVATAR =
@@ -85,6 +85,26 @@ const Profile = () => {
       dispatch(updateUserFailure(error.message));
     }
   };
+const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        // Handle successful deletion, e.g., redirect to login page or show a message
+        dispatch(deleteUserSuccess(data.message));
+        return;
+      } 
+      dispatch(deleteUserSuccess(data));
+
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
 
   return (
     <div className="p-3 max-w-lg mx-auto  bg-slate-200/50 backdrop-blur-lg border border-white/30 rounded-2xl shadow-lg mt-10 ">
@@ -100,7 +120,7 @@ const Profile = () => {
             e.currentTarget.src = DEFAULT_AVATAR;
           }}
         />
-        <p className="text-red-500  text-center">{error ? error : ''}</p> {/* Display error message if any */}
+        
         <p className="text-green-500 text-center">{ updateSuccess ? 'User is updated successfully' : ''}</p>
 
         <p className='text-sm self-center'>
@@ -122,7 +142,7 @@ const Profile = () => {
         <button disabled={loading} className="bg-slate-800 text-gray-100 p-2 rounded-lg mt-5 hover:opacity-95 cursor-pointer disabled:opacity-80">{loading ? "Loading..." : 'Update'}</button>
       </form>
       <div className="flex justify-center gap-4 mt-5">
-        <span className="text-red-500  p-2 hover:underline cursor-pointer">Delete account</span>
+        <span onClick={handleDeleteUser} className="text-red-500  p-2 hover:underline cursor-pointer">Delete account</span>
         <span className="text-red-500  p-2 hover:underline cursor-pointer">Sign Out</span>
       </div>
           
