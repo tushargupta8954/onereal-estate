@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess  } from "../redux/user/userSlice.js";
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, SingOutUserStart, SingOutUserSuccess, SingOutUserFailure  } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 
 const DEFAULT_AVATAR =
@@ -105,6 +105,20 @@ const handleDeleteUser = async () => {
     }
   };
 
+const handleSingOut = async () => {
+    try {
+      dispatch(SingOutUserStart());
+      const res = await fetch('/api/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(data.message));
+    }
+  };
 
   return (
     <div className="p-3 max-w-lg mx-auto  bg-slate-200/50 backdrop-blur-lg border border-white/30 rounded-2xl shadow-lg mt-10 ">
@@ -143,7 +157,7 @@ const handleDeleteUser = async () => {
       </form>
       <div className="flex justify-center gap-4 mt-5">
         <span onClick={handleDeleteUser} className="text-red-500  p-2 hover:underline cursor-pointer">Delete account</span>
-        <span className="text-red-500  p-2 hover:underline cursor-pointer">Sign Out</span>
+        <span onClick={handleSingOut} className="text-red-500  p-2 hover:underline cursor-pointer">Sign Out</span>
       </div>
           
     </div>
