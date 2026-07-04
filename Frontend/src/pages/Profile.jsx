@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL, } from "firebase
 import { app } from "../firebase";
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, SingOutUserStart, SingOutUserSuccess, SingOutUserFailure  } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const DEFAULT_AVATAR =
   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
@@ -154,6 +155,8 @@ const handleSingOut = async () => {
         <input type="email" placeholder="E-mail" id="email" onChange={handleChange} defaultValue={currentUser.email} className="bg-white border border-gray-400 outline-none p-3  rounded-lg" />
         <input type="password" placeholder="Password" id="password" onChange={handleChange} className="bg-white border border-gray-400 outline-none p-3  rounded-lg" />
         <button disabled={loading} className="bg-slate-800 text-gray-100 p-2 rounded-lg mt-5 hover:opacity-95 cursor-pointer disabled:opacity-80">{loading ? "Loading..." : 'Update'}</button>
+        <Link to={"/create-listing"} className="bg-green-700 text-gray-100 p-2 rounded-lg mt-5 hover:opacity-95 cursor-pointer text-center">
+        Create Listing</Link>
       </form>
       <div className="flex justify-center gap-4 mt-5">
         <span onClick={handleDeleteUser} className="text-red-500  p-2 hover:underline cursor-pointer">Delete account</span>
